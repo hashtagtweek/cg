@@ -2,8 +2,8 @@
 #include <stdbool.h>
 #include <GL/glut.h>
 #define outcode int
-double xmin=50,ymin=50, xmax=100,ymax=100; // Window boundaries
-double xvmin=200,yvmin=200,xvmax=300,yvmax=300; // Viewport boundaries
+double xmin=50,ymin=50, xmax=100,ymax=100; 
+double xvmin=200,yvmin=200,xvmax=300,yvmax=300; 
 const int RIGHT = 8;
 const int LEFT = 2;
 const int TOP = 4;
@@ -16,12 +16,12 @@ bool accept = false, done = false;
 outcode0 = ComputeOutCode (x0, y0);
 outcode1 = ComputeOutCode (x1, y1);
 do{
-if (!(outcode0 | outcode1)) //logical or is 0 Trivially accept & exit
+if (!(outcode0 | outcode1)) 
 {
 accept = true;
 done = true;
 }
-else if (outcode0 & outcode1) //logical and is not 0. Trivially reject and exit
+else if (outcode0 & outcode1)
 done = true;
 else
 {
@@ -29,22 +29,22 @@ double x, y;
 outcodeOut = outcode0? outcode0: outcode1;
 
 
-if (outcodeOut & TOP) //point is above the clip rectangle
+if (outcodeOut & TOP) 
 {
 x = x0 + (x1 - x0) * (ymax - y0)/(y1 - y0);
 y = ymax;
 }
-else if (outcodeOut & BOTTOM) //point is below the clip rectangle
+else if (outcodeOut & BOTTOM)
 {
 x = x0 + (x1 - x0) * (ymin - y0)/(y1 - y0);
 y = ymin;
 }
-else if (outcodeOut & RIGHT) //point is to the right of clip rectangle
+else if (outcodeOut & RIGHT) 
 {
 y = y0 + (y1 - y0) * (xmax - x0)/(x1 - x0);
 x = xmax;
 }
-else //point is to the left of clip rectangle
+else
 {
 y = y0 + (y1 - y0) * (xmin - x0)/(x1 - x0);
 x = xmin;
@@ -64,8 +64,8 @@ outcode1 = ComputeOutCode (x1, y1);
 }
 }while (!done);
 if (accept)
-{ // Window to viewport mappings
-double sx=(xvmax-xvmin)/(xmax-xmin); // Scale parameters
+{ 
+double sx=(xvmax-xvmin)/(xmax-xmin);
 double sy=(yvmax-yvmin)/(ymax-ymin);
 double vx0=xvmin+(x0-xmin)*sx;
 double vy0=yvmin+(y0-ymin)*sy;
@@ -90,13 +90,13 @@ glEnd();
 outcode ComputeOutCode (double x, double y)
 {
 outcode code = 0;
-if (y > ymax) //above the clip window
+if (y > ymax) 
 code |= TOP;
-else if (y < ymin) //below the clip window
+else if (y < ymin) 
 code |= BOTTOM;
-if (x > xmax) //to the right of clip window
+if (x > xmax) 
 code |= RIGHT;
-else if (x < xmin) //to the left of clip window
+else if (x < xmin)
 code |= LEFT;
 return code;
 }
